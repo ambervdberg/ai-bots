@@ -89,14 +89,13 @@ export class PoetBot extends Bot {
               Make the poem light-hearted and fun.`
       } as ChatCompletionSystemMessageParam;
 
-      const result = await fetch(`${this.apiUrl}chat`, {
+      const result = await fetch(`${this.apiUrl}/poem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          messages: [systemMessage, this.userQuestion],
-          stream: true,
+          message: this.userQuestion.content
         })
       });
 
@@ -116,7 +115,7 @@ export class PoetBot extends Bot {
 
   async createPrompt(): Promise<string> {
     this.setTypingMessage('Generating subject');
-    return (await fetch(`${this.apiUrl}poemsubject`)).text();
+    return (await fetch(`${this.apiUrl}/subject`)).text();
   }
 
   render() {

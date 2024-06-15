@@ -8,7 +8,7 @@ export abstract class Bot extends LitElement {
 
   private typingInterval?: number;
 
-  protected apiUrl = 'http://localhost:3001/api/';
+  protected apiUrl = 'https://function-app-ai-bots.azurewebsites.net/api';
 
   protected aiModel = 'gpt-4o';
 
@@ -70,6 +70,7 @@ export abstract class Bot extends LitElement {
           const text = decoder.decode(value, { stream: true });
 
           if (text) {
+            console.log(text);
             this.displayResponseStream(text);
             this.requestUpdate();
           }
