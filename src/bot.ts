@@ -2,42 +2,75 @@ import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources/chat/completions';
 
+/**
+ * Abstract class representing an AI bot.
+ */
 export abstract class Bot extends LitElement {
 
+  /**
+   * The response from the bot.
+   */
   @property({ type: String }) response: string = '';
 
   private typingInterval?: number;
 
+  /**
+   * The API URL for the bot.
+   */
   protected apiUrl = 'https://function-app-ai-bots.azurewebsites.net/api';
 
-  protected aiModel = 'gpt-4o';
-
+  /**
+   * The user's question.
+   */
   protected userQuestion: ChatCompletionUserMessageParam = {
     role: 'user',
     content: ''
   };
 
+  /**
+   * Creates a new instance of the Bot class.
+   * @param name The name of the bot.
+   */
   constructor(public name: string) {
     super();
   }
 
-  abstract start(userInput?: string): Promise<void>;
+  /**
+   * Starts the bot.
+   */
+  abstract start(): Promise<void>;
 
+  /**
+   * Displays the response from the bot.
+   * @param completion The completion object containing the response.
+   */
   protected displayResponse(completion: ChatCompletion): void {
     this.response = completion.choices[0].message.content!;
     this.requestUpdate();
   }
 
+  /**
+   * Displays a response string from the bot.
+   * @param response The response string to display.
+   */
   protected displayResponseString(response: string): void {
     this.response = response;
     this.requestUpdate();
   }
 
+  /**
+   * Displays a response stream from the bot.
+   * @param response The response stream to display.
+   */
   protected displayResponseStream(response: string): void {
     this.response += response;
     this.requestUpdate();
   }
 
+  /**
+   * Sets the typing message for the bot.
+   * @param message The typing message to display.
+   */
   protected setTypingMessage(message: string) {
     this.stopTypingMessage();
     let dotCount = 1;
@@ -45,46 +78,56 @@ export abstract class Bot extends LitElement {
 
     const updateTypingMessage = () => {
       const dots = '.'.repeat(dotCount);
-      this.displayResponseString(`<span class="invisible">${dots}</span><i>${message}${dots}</i>`);
+      const invisibleDots = `<span class="invisible">${dots}</span>`; // to keep the message centered
+      this.displayResponseString(`${invisibleDots}<i>${message}${dots}</i>`);
       dotCount = (dotCount % maxDots) + 1;
     };
 
     this.typingInterval = window.setInterval(updateTypingMessage, 500);
   }
 
-  protected stopTypingMessage() {
-    clearInterval(this.typingInterval);
+  /**
+   * Stops the typing message for the bot.
+   */
+  protected stopTypingMessage(): void {
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = undefined;
+    }
   }
 
+  /**
+   * Processes a response stream from the bot.
+   * @param result The response stream to process.
+   */
   protected async processStream(result: Response): Promise<void> {
-    const readableStream = result.body as ReadableStream<Uint8Array>;
-    const reader = readableStream.getReader();
-    const decoder = new TextDecoder();
+    try {
+      const readableStream = result.body as ReadableStream<Uint8Array>;
+      const reader = readableStream.getReader();
+      const decoder = new TextDecoder();
 
-    const readStream = async () => {
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+      const readStream = async () => {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-          const text = decoder.decode(value, { stream: true });
+            const text = decoder.decode(value, { stream: true });
 
-          if (text) {
-            console.log(text);
-            this.displayResponseStream(text);
-            this.requestUpdate();
+            if (text) {
+              this.displayResponseStream(text);
+            }
           }
-        }
-      } catch (error) {
-        console.error('Error reading the stream:', error);
-      } finally {
-        reader.releaseLock();
-      }
-    };
+          reader.releaseLock();
+      };
 
-    this.stopTypingMessage();
-    this.displayResponseString('');
+      this.stopTypingMessage();
+      this.displayResponseString('');
 
-    await readStream();
+      await readStream();
+    } catch (error) {
+      console.error('Error reading the stream:', error);
+      this.stopTypingMessage();
+      this.displayResponseString('An error occurred while processing the stream. Please try again.');
+    }
   }
 }

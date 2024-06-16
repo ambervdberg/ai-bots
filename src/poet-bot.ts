@@ -1,13 +1,21 @@
 import { css, html } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { customElement, property } from 'lit/decorators.js';
-import { ChatCompletionSystemMessageParam } from 'openai/resources';
 import { Bot } from './bot';
 
+/**
+ * Represents a Poet Bot that generates IT related poems.
+ */
 @customElement('poet-bot')
 export class PoetBot extends Bot {
+  /**
+   * The name of the Bot.
+   */
   @property({ type: String }) name = 'Poet bot';
 
+  /**
+   * The CSS styles for the Poet Bot component.
+   */
   static styles = css`
     :host {
       display: block;
@@ -73,30 +81,19 @@ export class PoetBot extends Bot {
     this.response = '';
   }
 
+  /**
+   * Starts the Poet Bot and generates a poem based on AI generated user input.
+   */
   async start(): Promise<void> {
     try {
       this.userQuestion.content = await this.createPrompt();
 
       this.setTypingMessage('Poet is typing');
 
-      const systemMessage = {
-        role: 'system',
-        content: `You are a master poet. Your answers should be concise, and less than 50 words.
-              Format the output in html without head or body. 
-              Make it look nice and easy to read. 
-              The subject of the poem will be provided by the user. 
-              It must always be related to information technology.
-              Make the poem light-hearted and fun.`
-      } as ChatCompletionSystemMessageParam;
-
       const result = await fetch(`${this.apiUrl}/poem`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: this.userQuestion.content
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: this.userQuestion.content })
       });
 
       if (result.status !== 200) {
@@ -107,15 +104,20 @@ export class PoetBot extends Bot {
 
       await this.processStream(result);
     } catch (error) {
-      console.error(error);
+      console.error('Error in start method:', error);
       this.stopTypingMessage();
       this.displayResponseString('An error occurred. Please try again.');
     }
   }
 
+  /**
+   * Retrieves an AI generated user prompt.
+   * @returns the generated prompt.
+   */
   async createPrompt(): Promise<string> {
     this.setTypingMessage('Generating subject');
-    return (await fetch(`${this.apiUrl}/subject`)).text();
+    const response = await fetch(`${this.apiUrl}/subject`);
+    return response.text();
   }
 
   render() {
@@ -123,7 +125,7 @@ export class PoetBot extends Bot {
       <h2 id="botName">${this.name}</h2>
       <button @click="${() => this.start()}">Generate Poem</button>
       <div id="botContainer">
-        <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated..'}</p>
+        <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
         <div id="botResponse">${unsafeHTML(this.response)}</div>
       </div>
     `;
