@@ -9,10 +9,15 @@
   },
   "homepage": "https://ambervdberg.github.io/ai-bots/",
   "scripts": {
+    "prepare": "husky",
+    "prebuild": "npm run lint",
+    "lint": "eslint --cache --fix",
     "dev": "vite",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d dist",
-    "build": "vite build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "build": "vite build",
+    "lint-staged": "lint-staged",
+    "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -21,7 +26,15 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "gh-pages": "^6.1.1",
+    "husky": "^9.1.1",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.1",
     "vite": "^5.3.4"
   }
 }
