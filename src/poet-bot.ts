@@ -71,7 +71,7 @@ export class PoetBot extends Bot {
       background-color: #2980b9;
     }
 
-    .invisible{
+    .invisible {
       opacity: 0;
     }
   `;

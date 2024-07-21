@@ -6,7 +6,6 @@ import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources
  * Abstract class representing an AI bot.
  */
 export abstract class Bot extends LitElement {
-
   /**
    * The response from the bot.
    */
@@ -107,17 +106,17 @@ export abstract class Bot extends LitElement {
       const decoder = new TextDecoder();
 
       const readStream = async () => {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
 
-            const text = decoder.decode(value, { stream: true });
+          const text = decoder.decode(value, { stream: true });
 
-            if (text) {
-              this.displayResponseStream(text);
-            }
+          if (text) {
+            this.displayResponseStream(text);
           }
-          reader.releaseLock();
+        }
+        reader.releaseLock();
       };
 
       this.stopTypingMessage();
@@ -127,7 +126,9 @@ export abstract class Bot extends LitElement {
     } catch (error) {
       console.error('Error reading the stream:', error);
       this.stopTypingMessage();
-      this.displayResponseString('An error occurred while processing the stream. Please try again.');
+      this.displayResponseString(
+        'An error occurred while processing the stream. Please try again.'
+      );
     }
   }
 }
