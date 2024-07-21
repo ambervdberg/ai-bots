@@ -1,2 +1,1 @@
 import './my-app';
-
