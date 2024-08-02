@@ -1,6 +1,7 @@
 import { css, html } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { customElement, property } from 'lit/decorators.js';
+import { router } from '../router';
 import { Bot } from './bot';
 
 /**
@@ -19,56 +20,66 @@ export class PoetBot extends Bot {
   static styles = css`
     :host {
       display: block;
-      font-family: 'Roboto', sans-serif;
-      padding: 16px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: 'Arial', sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem 1.5rem;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid #eaeaea;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      color: #222;
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
 
     #botContainer {
-      margin-top: 16px;
-    }
-
-    #botName {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #333;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     #botQuestion {
-      font-size: 1em;
-      margin-top: 8px;
+      font-size: 0.875rem;
       color: #555;
+      margin-top: 2rem;
+      text-align: center;
     }
 
     #botResponse {
-      font-size: 1em;
-      margin-top: 16px;
-      padding: 12px;
-      border: 1px solid #e0e0e0;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
       border-radius: 8px;
-      background-color: #f9f9f9;
+      color: #333;
+      white-space: pre-wrap;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     button {
-      background-color: #3498db;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
       color: #fff;
+      background-color: #007bff;
       border: none;
-      padding: 10px 20px;
-      margin: 10px 0;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+      align-self: center;
     }
 
     button:hover {
-      background-color: #2980b9;
+      background-color: #0056b3;
+      transform: translateY(-2px);
     }
 
     .invisible {
@@ -79,6 +90,10 @@ export class PoetBot extends Bot {
   constructor() {
     super('Poet bot');
     this.response = '';
+  }
+
+  firstUpdated() {
+    this.location = router.location;
   }
 
   /**
@@ -123,10 +138,12 @@ export class PoetBot extends Bot {
   render() {
     return html`
       <h2 id="botName">${this.name}</h2>
-      <button @click="${() => this.start()}">Generate Poem</button>
       <div id="botContainer">
+        <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
-        <div id="botResponse">${unsafeHTML(this.response)}</div>
+        <div ?hidden=${this.response.length === 0} id="botResponse">
+          ${unsafeHTML(this.response)}
+        </div>
       </div>
     `;
   }

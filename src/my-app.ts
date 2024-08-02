@@ -1,10 +1,19 @@
+import { RouterLocation } from '@vaadin/router';
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import './poet-bot';
+import { router } from './router';
+
+import './bots/notion-bot';
+import './bots/poet-bot';
 
 @customElement('my-app')
 export class MyApp extends LitElement {
-  @property({ type: Boolean }) isPoetBotChosen = false;
+  @property({ type: Object }) location: RouterLocation;
+
+  constructor() {
+    super();
+    this.location = router.location;
+  }
 
   static styles = css`
     :host {
@@ -46,19 +55,15 @@ export class MyApp extends LitElement {
     }
   `;
 
-  chatBot() {
-    this.isPoetBotChosen = true;
-  }
-
   render() {
     return html`
       <div>
         <h1>OpenAI API Bots</h1>
         <div>
-          <button @click="${this.chatBot}">Poet Bot</button>
+          <a href="/">Home</a>
+          <a href="/poem">Poem Bot</a>
+          <a href="/notion">Notion Bot</a>
         </div>
-
-        ${this.isPoetBotChosen ? html`<poet-bot></poet-bot>` : ''}
       </div>
     `;
   }
