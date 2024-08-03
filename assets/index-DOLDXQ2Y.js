@@ -258,7 +258,7 @@
           <span style="display: none;">${this.name}</span>
         </div>
       </button>
-    `}};O.styles=fe;J([g({type:String})],O.prototype,"name",2);J([g({type:Boolean})],O.prototype,"ms",2);J([g({type:Boolean})],O.prototype,"disabled",2);O=J([v("login-button")],O);var $e=Object.defineProperty,me=Object.getOwnPropertyDescriptor,Nt=(r,t,e,o)=>{for(var s=o>1?void 0:o?me(t,e):t,i=r.length-1,n;i>=0;i--)(n=r[i])&&(s=(o?n(t,e,s):n(s))||s);return o&&s&&$e(t,e,s),s};let it=class extends f{constructor(){super(...arguments),this.name="Sign in with Google"}googleLogin(){const r=location.origin+location.hash,t=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${wt.clientId}&redirect_uri=${r}&response_type=token&scope=${wt.scopes}`;window.location.href=t}render(){return u` <login-button .name=${this.name} @click=${this.googleLogin}>
+    `}};O.styles=fe;J([g({type:String})],O.prototype,"name",2);J([g({type:Boolean})],O.prototype,"ms",2);J([g({type:Boolean})],O.prototype,"disabled",2);O=J([v("login-button")],O);var $e=Object.defineProperty,me=Object.getOwnPropertyDescriptor,Nt=(r,t,e,o)=>{for(var s=o>1?void 0:o?me(t,e):t,i=r.length-1,n;i>=0;i--)(n=r[i])&&(s=(o?n(t,e,s):n(s))||s);return o&&s&&$e(t,e,s),s};let it=class extends f{constructor(){super(...arguments),this.name="Sign in with Google"}googleLogin(){const r=location.origin+location.pathname,t=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${wt.clientId}&redirect_uri=${r}&response_type=token&scope=${wt.scopes}`;console.log("Redirecting to:",t),window.location.href=t}render(){return u` <login-button .name=${this.name} @click=${this.googleLogin}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
