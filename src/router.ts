@@ -5,19 +5,21 @@ export const router = new Router(outlet);
 
 router.setRoutes([
   {
-    path: '/',
+    path: process.env.NODE_ENV === 'production' ? '/ai-bots/' : '/',
     children: [
       { path: '/', component: 'home-component' },
       { path: '/poem', component: 'poet-bot', title: 'Poem Bot' },
       { path: '/notion', component: 'notion-bot', title: 'Notion Bot' },
       {
-        path: '/callback',
-        component: 'notion-bot',
-        action: async foo => {
-          console.log('foo', foo);
-        }
-      },
-      { path: '(.*)', component: 'not-found' }
+        path: '(.*)',
+        component: 'not-found',
+        action: () => console.log('Not found', location.pathname)
+      }
     ]
+  },
+  {
+    path: '(.*)',
+    redirect: process.env.NODE_ENV === 'production' ? '/ai-bots/' : '/',
+    action: () => console.log('Not found', location.pathname)
   }
 ] as Route[]);
