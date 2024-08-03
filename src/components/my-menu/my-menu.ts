@@ -1,23 +1,33 @@
-import { RouterLocation } from '@vaadin/router';
 import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-
-import { router } from '../../router';
+import { customElement } from 'lit/decorators.js';
 
 import '../bots/notion/notion-bot';
-import '../bots/poet/poet-bot';
+import '../bots/poem/poem-bot';
 import { styles } from './my-menu.styles';
 
-@customElement('my-menu')
-export class MyMenu extends LitElement {
+const ROUTES = {
+  HOME: '',
+  POEM: '#poem',
+  NOTION: '#notion'
+};
+
+@customElement('ai-bot-app')
+export class AIBotApp extends LitElement {
   static styles = styles;
 
-  @property({ type: Object }) location: RouterLocation;
-
-  constructor() {
-    super();
-    this.location = router.location;
+  connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener('hashchange', this.handleHashChange);
   }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    window.removeEventListener('hashchange', this.handleHashChange);
+  }
+
+  handleHashChange = (): void => {
+    this.requestUpdate();
+  };
 
   render() {
     return html`
@@ -25,8 +35,11 @@ export class MyMenu extends LitElement {
         <h1>OpenAI API Bots</h1>
         <div>
           <a href="./">Home</a>
-          <a href="./poem">Poem Bot</a>
-          <a href="./notion">Notion Bot</a>
+          <a href="${ROUTES.POEM}">Poem Bot</a>
+          <a href="${ROUTES.NOTION}">Notion Bot</a>
+
+          ${location.hash === ROUTES.POEM ? html`<poem-bot></poem-bot>` : ''}
+          ${location.hash === ROUTES.NOTION ? html`<notion-bot></notion-bot>` : ''}
         </div>
       </div>
     `;

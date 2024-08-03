@@ -7,7 +7,7 @@
     "name": "Amber van den berg",
     "email": "amber.vdberg.01@gmail.com"
   },
-  "homepage": "https://ambervdberg.github.io/ai-bots/",
+  "homepage": "https://ambervdberg.github.io/ai-bots",
   "scripts": {
     "prepare": "husky",
     "prebuild": "npm run lint",
@@ -21,7 +21,6 @@
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
-    "@vaadin/router": "^1.7.5",
     "axios": "^1.7.2",
     "lit": "^3.1.4",
     "openai": "^4.52.7"

@@ -1,20 +1,19 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { router } from '../../../router';
 import '../../bot-container/bot-container';
 import { Bot } from '../bot';
-import { styles } from './poet-bot.styles';
+import { styles } from './poem-bot.styles';
 
 /**
  * Represents a Poet Bot that generates IT related poems.
  */
-@customElement('poet-bot')
-export class PoetBot extends Bot {
+@customElement('poem-bot')
+export class PoemBot extends Bot {
   /**
    * The name of the Bot.
    */
-  @property({ type: String }) name = 'Poet bot';
+  @property({ type: String }) name = 'Poem bot';
 
   /**
    * The CSS styles for the Poet Bot component.
@@ -24,10 +23,6 @@ export class PoetBot extends Bot {
   constructor() {
     super();
     this.response = '';
-  }
-
-  firstUpdated() {
-    this.location = router.location;
   }
 
   /**
