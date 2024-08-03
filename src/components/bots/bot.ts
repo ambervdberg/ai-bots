@@ -35,14 +35,6 @@ export abstract class Bot extends Auth(LitElement) {
     content: ''
   };
 
-  /**
-   * Creates a new instance of the Bot class.
-   * @param name The name of the bot.
-   */
-  constructor(public name: string) {
-    super();
-  }
-
   firstUpdated() {
     this.location = router.location;
   }
