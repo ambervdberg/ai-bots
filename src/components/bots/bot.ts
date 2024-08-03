@@ -1,22 +1,31 @@
+import { RouterLocation } from '@vaadin/router';
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources/chat/completions';
 
+import { Auth } from '../../authentication/auth-mixin';
+import { router } from '../../router';
+
 /**
  * Abstract class representing an AI bot.
  */
-export abstract class Bot extends LitElement {
+export abstract class Bot extends Auth(LitElement) {
   /**
    * The response from the bot.
    */
   @property({ type: String }) response: string = '';
+
+  /**
+   * The location of the router.
+   */
+  @property({ type: Object }) location?: RouterLocation;
 
   private typingInterval?: number;
 
   /**
    * The API URL for the bot.
    */
-  protected apiUrl = 'https://function-app-ai-bots.azurewebsites.net/api';
+  protected apiUrl = (import.meta as any).env.VITE_API_URL;
 
   /**
    * The user's question.
@@ -26,12 +35,8 @@ export abstract class Bot extends LitElement {
     content: ''
   };
 
-  /**
-   * Creates a new instance of the Bot class.
-   * @param name The name of the bot.
-   */
-  constructor(public name: string) {
-    super();
+  firstUpdated() {
+    this.location = router.location;
   }
 
   /**
@@ -73,7 +78,7 @@ export abstract class Bot extends LitElement {
   protected setTypingMessage(message: string) {
     this.stopTypingMessage();
     let dotCount = 1;
-    const maxDots = 5;
+    const maxDots = 4;
 
     const updateTypingMessage = () => {
       const dots = '.'.repeat(dotCount);

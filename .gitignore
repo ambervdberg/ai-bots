@@ -30,4 +30,4 @@ docs
 .DS_Store
 .history
 stats.html
-.env
+.env*

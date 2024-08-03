@@ -13,6 +13,7 @@
     "prebuild": "npm run lint",
     "lint": "eslint --cache --fix",
     "dev": "vite",
+    "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "build": "vite build",
@@ -20,6 +21,7 @@
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
+    "@vaadin/router": "^1.7.5",
     "axios": "^1.7.2",
     "lit": "^3.1.4",
     "openai": "^4.52.7"
@@ -35,6 +37,6 @@
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^7.17.0",
-    "vite": "^5.3.5"
+    "vite": "^5.3.4"
   }
 }

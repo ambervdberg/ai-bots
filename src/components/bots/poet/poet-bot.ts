@@ -1,7 +1,10 @@
-import { css, html } from 'lit';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Bot } from './bot';
+
+import { router } from '../../../router';
+import '../../bot-container/bot-container';
+import { Bot } from '../bot';
+import { styles } from './poet-bot.styles';
 
 /**
  * Represents a Poet Bot that generates IT related poems.
@@ -16,69 +19,15 @@ export class PoetBot extends Bot {
   /**
    * The CSS styles for the Poet Bot component.
    */
-  static styles = css`
-    :host {
-      display: block;
-      font-family: 'Roboto', sans-serif;
-      padding: 16px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    #botContainer {
-      margin-top: 16px;
-    }
-
-    #botName {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #333;
-    }
-
-    #botQuestion {
-      font-size: 1em;
-      margin-top: 8px;
-      color: #555;
-    }
-
-    #botResponse {
-      font-size: 1em;
-      margin-top: 16px;
-      padding: 12px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    button {
-      background-color: #3498db;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      margin: 10px 0;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    .invisible {
-      opacity: 0;
-    }
-  `;
+  static styles = styles;
 
   constructor() {
-    super('Poet bot');
+    super();
     this.response = '';
+  }
+
+  firstUpdated() {
+    this.location = router.location;
   }
 
   /**
@@ -122,12 +71,10 @@ export class PoetBot extends Bot {
 
   render() {
     return html`
-      <h2 id="botName">${this.name}</h2>
-      <button @click="${() => this.start()}">Generate Poem</button>
-      <div id="botContainer">
+      <bot-container .name=${this.name} .response=${this.response}>
+        <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
-        <div id="botResponse">${unsafeHTML(this.response)}</div>
-      </div>
+      </bot-container>
     `;
   }
 }
