@@ -2,8 +2,9 @@ import { RouterLocation } from '@vaadin/router';
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources/chat/completions';
-import { Auth } from '../my-mixin';
-import { router } from '../router';
+
+import { Auth } from '../../authentication/auth-mixin';
+import { router } from '../../router';
 
 /**
  * Abstract class representing an AI bot.
@@ -85,7 +86,7 @@ export abstract class Bot extends Auth(LitElement) {
   protected setTypingMessage(message: string) {
     this.stopTypingMessage();
     let dotCount = 1;
-    const maxDots = 5;
+    const maxDots = 4;
 
     const updateTypingMessage = () => {
       const dots = '.'.repeat(dotCount);

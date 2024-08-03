@@ -1,7 +1,8 @@
 /* playground-fold */
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators/property.js';
-import { AuthService } from './auth-service';
+
+import { AuthService } from './auth.service';
 
 type Constructor<T> = new (...args: any[]) => T;
 

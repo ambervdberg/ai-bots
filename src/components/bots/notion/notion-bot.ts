@@ -1,98 +1,17 @@
-import { css, html } from 'lit';
+import { html } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { when } from 'lit-html/directives/when.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { AuthService } from '../auth-service';
-import '../signin-google';
-import '../signout-button';
-import { Bot } from './bot';
+
+import { AuthService } from '../../../authentication/auth.service';
+import '../../signin-google';
+import '../../signout-button';
+import { Bot } from '../bot';
+import { styles } from './notion-bot.styles';
 
 @customElement('notion-bot')
 export class NotionBot extends Bot {
-  /**
-   * The CSS styles for the Notion Bot component.
-   */
-  static styles = css`
-    :host {
-      display: block;
-      font-family: 'Arial', sans-serif;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem 1.5rem;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      border: 1px solid #eaeaea;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-      color: #222;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    #botContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    label {
-      font-size: 0.875rem;
-      color: #555;
-      margin-bottom: 0.25rem;
-    }
-
-    input[type='text'] {
-      font-size: 0.875rem;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 100%;
-      box-sizing: border-box;
-      background: #f9f9f9;
-    }
-
-    button {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      color: #fff;
-      background-color: #007bff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition:
-        background-color 0.3s ease,
-        transform 0.2s ease;
-      align-self: center;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-
-    #botResponse {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      color: #333;
-      white-space: pre-wrap;
-      text-align: center;
-    }
-
-    .invisible {
-      opacity: 0;
-    }
-
-    .signin {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-  `;
+  static styles = styles;
 
   @property({ type: String })
   name = 'Notion bot';
@@ -116,7 +35,7 @@ export class NotionBot extends Bot {
       return;
     }
 
-    this.setTypingMessage('Asking Notion bot...');
+    this.setTypingMessage('Asking Notion bot');
 
     await fetch(`${this.apiUrl}/notion?code=${AuthService.getCode()}`, {
       method: 'POST',
@@ -173,9 +92,10 @@ export class NotionBot extends Bot {
           />
         </div>
         <button ?hidden="${!this.isAuthenticated}" @click="${this.start}">Ask Notion Bot</button>
-        <div ?hidden="${!this.isAuthenticated || this.response.length === 0}" id="botResponse">
-          ${unsafeHTML(this.response)}
-        </div>
+        ${when(
+          this.response.length > 0,
+          () => html`<div id="botResponse">${unsafeHTML(this.response)}</div>`
+        )}
       </div>
     `;
   }

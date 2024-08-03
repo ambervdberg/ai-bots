@@ -1,13 +1,12 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import './login-button';
-import { googleOAuthConfig } from './oauth-config';
+
+import { googleOAuthConfig } from '../authentication/google-oauth.config';
+import './login-button/login-button';
 
 @customElement('signin-google')
 export class SigninGoogleButton extends LitElement {
-  static styles = css``;
-
-  @state() title = 'Sign in with Google';
+  @state() private name = 'Sign in with Google';
 
   private googleLogin() {
     const redirect = location.origin + location.pathname;
@@ -16,7 +15,7 @@ export class SigninGoogleButton extends LitElement {
   }
 
   render() {
-    return html` <login-button .title=${this.title} @click=${this.googleLogin}>
+    return html` <login-button .name=${this.name} @click=${this.googleLogin}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

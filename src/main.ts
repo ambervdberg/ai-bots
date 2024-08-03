@@ -1,5 +1,5 @@
-import { AuthService } from './auth-service';
-import './my-app';
+import { AuthService } from './authentication/auth.service';
+import './components/my-menu/my-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
   AuthService.handleAuthResponse();

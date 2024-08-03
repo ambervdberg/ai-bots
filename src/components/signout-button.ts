@@ -1,21 +1,18 @@
 // login-component.ts
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { AuthService } from './auth-service';
-import './login-button';
+import { LitElement, html } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
+
+import { AuthService } from '../authentication/auth.service';
+import './login-button/login-button';
 
 @customElement('signout-button')
 export class LogOutComponent extends LitElement {
-  static styles = css`
-    /* Add your styles here */
-  `;
-
-  @property({ type: String }) title = 'Logout';
+  @state() private name = 'Logout';
 
   render() {
     return html`
       <login-button
-        .title=${this.title}
+        .name=${this.name}
         @click="${() => AuthService.logout(location.origin + location.pathname)}"
       >
         <svg
