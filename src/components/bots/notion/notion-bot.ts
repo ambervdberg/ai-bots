@@ -1,9 +1,9 @@
 import { html } from 'lit';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { when } from 'lit-html/directives/when.js';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import { AuthService } from '../../../authentication/auth.service';
+import '../../bot-container/bot-container';
 import '../../signin-google';
 import '../../signout-button';
 import { Bot } from '../bot';
@@ -23,7 +23,7 @@ export class NotionBot extends Bot {
   workspaceName: string = '';
 
   constructor() {
-    super('Notion bot');
+    super();
     this.response = '';
   }
 
@@ -60,43 +60,51 @@ export class NotionBot extends Bot {
       });
   }
 
+  private renderWorkspace() {
+    return html` <div id="workspace-input-container" ?hidden=${!this.isAuthenticated}>
+      <label for="workspaceName">Workspace Name (Optional):</label>
+      <input
+        type="text"
+        id="workspaceName"
+        .value=${this.workspaceName}
+        placeholder="MyWorkSpace"
+        @input=${(e: Event) => (this.workspaceName = (e.target as HTMLInputElement).value)}
+      />
+    </div>`;
+  }
+
+  private renderQuestion() {
+    return html` <div id="question-input-container">
+      <label for="question-input">Your question:</label>
+      <input
+        type="text"
+        id="question-input"
+        .value=${this.question}
+        placeholder="What's on my todo list?"
+        @input=${(e: Event) => (this.question = (e.target as HTMLInputElement).value)}
+      />
+    </div>`;
+  }
+
+  private renderQuestionButton() {
+    return html`<button ?disabled=${!this.question} @click="${this.start}">Ask Notion Bot</button>`;
+  }
+
   render() {
     return html`
-      <div id="botContainer">
-        <h2 id="botName">${this.name}</h2>
+      <bot-container .name=${this.name} .response=${this.response}>
         <div class="signin">
           <signin-google ?hidden=${this.isAuthenticated}></signin-google>
           <signout-button ?hidden=${!this.isAuthenticated}></signout-button>
         </div>
 
-        <div id="workspace-input-container" ?hidden=${!this.isAuthenticated}>
-          <label for="workspaceName">Workspace Name (Optional):</label>
-          <input
-            type="text"
-            id="workspaceName"
-            .value=${this.workspaceName}
-            placeholder="MyWorkSpace"
-            @input=${(e: Event) => (this.workspaceName = (e.target as HTMLInputElement).value)}
-          />
-        </div>
-
-        <!-- TODO: Create component for output -->
-        <div id="question-input-container" ?hidden=${!this.isAuthenticated}>
-          <label for="question-input">Your question:</label>
-          <input
-            type="text"
-            id="question-input"
-            .value=${this.question}
-            placeholder="What's on my todo list?"
-            @input=${(e: Event) => (this.question = (e.target as HTMLInputElement).value)}
-          />
-        </div>
-        <button ?hidden="${!this.isAuthenticated}" @click="${this.start}">Ask Notion Bot</button>
         ${when(
-          this.response.length > 0,
-          () => html`<div id="botResponse">${unsafeHTML(this.response)}</div>`
+          this.isAuthenticated,
+          () => html`
+            ${this.renderWorkspace()} ${this.renderQuestion()} ${this.renderQuestionButton()}
+          `
         )}
-      </div>
+      </bot-container>
     `;
   }
 }

@@ -1,9 +1,8 @@
 import { html } from 'lit';
-import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { when } from 'lit-html/directives/when.js';
 import { customElement, property } from 'lit/decorators.js';
 
 import { router } from '../../../router';
+import '../../bot-container/bot-container';
 import { Bot } from '../bot';
 import { styles } from './poet-bot.styles';
 
@@ -23,7 +22,7 @@ export class PoetBot extends Bot {
   static styles = styles;
 
   constructor() {
-    super('Poet bot');
+    super();
     this.response = '';
   }
 
@@ -72,16 +71,10 @@ export class PoetBot extends Bot {
 
   render() {
     return html`
-      <h2 id="botName">${this.name}</h2>
-      <div id="botContainer">
+      <bot-container .name=${this.name} .response=${this.response}>
         <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
-
-        ${when(
-          this.response.length > 0,
-          () => html`<div id="botResponse">${unsafeHTML(this.response)}</div>`
-        )}
-      </div>
+      </bot-container>
     `;
   }
 }

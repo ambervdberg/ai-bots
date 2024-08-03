@@ -21,8 +21,8 @@ export class LoginButton extends LitElement {
           <div class="button-icon">
             <slot></slot>
           </div>
-          <span class="button-contents">${this.title}</span>
-          <span style="display: none;">${this.title}</span>
+          <span class="button-contents">${this.name}</span>
+          <span style="display: none;">${this.name}</span>
         </div>
       </button>
     `;
