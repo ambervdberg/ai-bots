@@ -457,4 +457,4 @@
           <a href="./notion">Notion Bot</a>
         </div>
       </div>
-    `}};ue.styles=An;Nt([_({type:Object})],ue.prototype,"location",2);ue=Nt([P("my-menu")],ue);document.addEventListener("DOMContentLoaded",()=>{j.handleAuthResponse()});
+    `}};ue.styles=An;Nt([_({type:Object})],ue.prototype,"location",2);ue=Nt([P("my-menu")],ue);document.addEventListener("DOMContentLoaded",()=>{j.handleAuthResponse()});console.log(location.pathname);
