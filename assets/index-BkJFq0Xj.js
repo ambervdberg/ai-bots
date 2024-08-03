@@ -448,7 +448,7 @@
       <div>
         <h1>OpenAI API Bots</h1>
         <div>
-          <a href="/">Home</a>
+          <a href="./">Home</a>
           <a href="${L.POEM}">Poem Bot</a>
           <a href="${L.NOTION}">Notion Bot</a>
 
