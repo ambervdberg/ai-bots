@@ -129,7 +129,7 @@
         <slot></slot>
         <response-container .response=${this.response}></response-container>
       </div>
-    `}};j.styles=re;ht([g({type:String})],j.prototype,"name",2);ht([g({type:String})],j.prototype,"response",2);j=ht([v("bot-container")],j);const wt={clientId:"428415279833-hfki5sa87n2pht2p0vd8pfiqi56qk7d2.apps.googleusercontent.com",scopes:"openid email profile"},fe=N`
+    `}};j.styles=re;ht([g({type:String})],j.prototype,"name",2);ht([g({type:String})],j.prototype,"response",2);j=ht([v("bot-container")],j);const wt={clientId:"428415279833-hfki5sa87n2pht2p0vd8pfiqi56qk7d2.apps.googleusercontent.com",scopes:"openid"},fe=N`
   :host {
     display: block;
     padding: 16px;
@@ -258,7 +258,7 @@
           <span style="display: none;">${this.name}</span>
         </div>
       </button>
-    `}};O.styles=fe;J([g({type:String})],O.prototype,"name",2);J([g({type:Boolean})],O.prototype,"ms",2);J([g({type:Boolean})],O.prototype,"disabled",2);O=J([v("login-button")],O);var $e=Object.defineProperty,me=Object.getOwnPropertyDescriptor,Nt=(r,t,e,o)=>{for(var s=o>1?void 0:o?me(t,e):t,i=r.length-1,n;i>=0;i--)(n=r[i])&&(s=(o?n(t,e,s):n(s))||s);return o&&s&&$e(t,e,s),s};let it=class extends f{constructor(){super(...arguments),this.name="Sign in with Google"}googleLogin(){const r=location.origin+location.pathname,t=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${wt.clientId}&redirect_uri=${r}&response_type=token&scope=${wt.scopes}`;console.log("Redirecting to:",t),window.location.href=t}render(){return u` <login-button .name=${this.name} @click=${this.googleLogin}>
+    `}};O.styles=fe;J([g({type:String})],O.prototype,"name",2);J([g({type:Boolean})],O.prototype,"ms",2);J([g({type:Boolean})],O.prototype,"disabled",2);O=J([v("login-button")],O);var $e=Object.defineProperty,me=Object.getOwnPropertyDescriptor,Nt=(r,t,e,o)=>{for(var s=o>1?void 0:o?me(t,e):t,i=r.length-1,n;i>=0;i--)(n=r[i])&&(s=(o?n(t,e,s):n(s))||s);return o&&s&&$e(t,e,s),s};let it=class extends f{constructor(){super(...arguments),this.name="Sign in with Google"}googleLogin(){const r=location.origin+location.pathname,t=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${wt.clientId}&redirect_uri=${r}&response_type=token&scope=${wt.scopes}`;window.location.href=t}render(){return u` <login-button .name=${this.name} @click=${this.googleLogin}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
@@ -410,7 +410,7 @@
         <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content||"Subject will be generated..."}</p>
       </bot-container>
-    `}};Y.styles=Ce;Mt([g({type:String})],Y.prototype,"name",2);Y=Mt([v("poet-bot")],Y);const Ue=N`
+    `}};Y.styles=Ce;Mt([g({type:String})],Y.prototype,"name",2);Y=Mt([v("poem-bot")],Y);const Ue=N`
   :host {
     display: block;
     font-family: 'Roboto', sans-serif;
