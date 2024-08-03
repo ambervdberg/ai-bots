@@ -452,9 +452,9 @@
       <div>
         <h1>OpenAI API Bots</h1>
         <div>
-          <a href="/">Home</a>
-          <a href="/poem">Poem Bot</a>
-          <a href="/notion">Notion Bot</a>
+          <a href="./">Home</a>
+          <a href="./poem">Poem Bot</a>
+          <a href="./notion">Notion Bot</a>
         </div>
       </div>
     `}};ue.styles=An;Nt([_({type:Object})],ue.prototype,"location",2);ue=Nt([P("my-menu")],ue);document.addEventListener("DOMContentLoaded",()=>{j.handleAuthResponse()});console.log(location.pathname);
