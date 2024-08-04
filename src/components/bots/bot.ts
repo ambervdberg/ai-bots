@@ -1,10 +1,8 @@
-import { RouterLocation } from '@vaadin/router';
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources/chat/completions';
 
 import { Auth } from '../../authentication/auth-mixin';
-import { router } from '../../router';
 
 /**
  * Abstract class representing an AI bot.
@@ -14,11 +12,6 @@ export abstract class Bot extends Auth(LitElement) {
    * The response from the bot.
    */
   @property({ type: String }) response: string = '';
-
-  /**
-   * The location of the router.
-   */
-  @property({ type: Object }) location?: RouterLocation;
 
   private typingInterval?: number;
 
@@ -34,10 +27,6 @@ export abstract class Bot extends Auth(LitElement) {
     role: 'user',
     content: ''
   };
-
-  firstUpdated() {
-    this.location = router.location;
-  }
 
   /**
    * Starts the bot.

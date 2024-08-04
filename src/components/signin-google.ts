@@ -8,10 +8,23 @@ import './login-button/login-button';
 export class SigninGoogleButton extends LitElement {
   @state() private name = 'Sign in with Google';
 
+  /**
+   * Redirect to the google login page.
+   * We use the OAuth2 implicit flow to get the access token.
+   * The access token is then used to authorize the user in AuthService.isAuthenticated().
+   */
   private googleLogin() {
-    const redirect = location.origin + location.pathname;
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleOAuthConfig.clientId}&redirect_uri=${redirect}&response_type=token&scope=${googleOAuthConfig.scopes}`;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleOAuthConfig.clientId}&redirect_uri=${this.getRedirectURI()}&response_type=token&scope=${encodeURI(googleOAuthConfig.scopes)}`;
     window.location.href = url;
+  }
+
+  /**
+   * Get the redirect URI.
+   * We cannot use the hash in the URL, so we replace the hash with the search param in the redirectURI to google.
+   */
+  private getRedirectURI(): string {
+    const transformedHash = location.hash.replace('#', '?');
+    return location.origin + location.pathname + transformedHash;
   }
 
   render() {

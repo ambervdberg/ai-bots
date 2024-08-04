@@ -21,9 +21,10 @@ export const Auth = <T extends Constructor<LitElement>>(superClass: T) => {
     connectedCallback(): void {
       super.connectedCallback();
 
-      setTimeout(() => {
+      super.updateComplete.then(() => {
         this.checkAuth();
-      }, 0); // workaround
+        return true;
+      });
 
       window.addEventListener('storage', this.checkAuth);
     }

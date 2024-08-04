@@ -34,8 +34,4 @@ export const styles = css`
   button:hover {
     background-color: #2980b9;
   }
-
-  poet-bot {
-    margin-top: 20px;
-  }
 `;
