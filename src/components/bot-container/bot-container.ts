@@ -15,7 +15,7 @@ export class BotContainer extends LitElement {
 
   render() {
     return html`
-      <h2 id="botName">${this.name}</h2>
+      <h1 id="botName">${this.name}</h1>
       <div id="botContainer">
         <slot></slot>
         <response-container .response=${this.response}></response-container>

@@ -3,7 +3,8 @@ import { customElement } from 'lit/decorators.js';
 
 import '../bots/notion/notion-bot';
 import '../bots/poem/poem-bot';
-import { styles } from './my-menu.styles';
+import '../home-component/home.component';
+import { styles } from './ai-bot-app.styles';
 
 const ROUTES = {
   HOME: '',
@@ -31,17 +32,21 @@ export class AIBotApp extends LitElement {
 
   render() {
     return html`
-      <div>
+      <header>
         <h1>OpenAI API Bots</h1>
-        <div>
-          <a href="./">Home</a>
-          <a href="${ROUTES.POEM}">Poem Bot</a>
-          <a href="${ROUTES.NOTION}">Notion Bot</a>
-
-          ${location.hash === ROUTES.POEM ? html`<poem-bot></poem-bot>` : ''}
-          ${location.hash === ROUTES.NOTION ? html`<notion-bot></notion-bot>` : ''}
-        </div>
-      </div>
+        <nav>
+          <ul>
+            <li><a href="./">About</a></li>
+            <li><a href="${ROUTES.POEM}">Poem Bot</a></li>
+            <li><a href="${ROUTES.NOTION}">Notion Bot</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        ${location.hash === ROUTES.HOME ? html`<home-component></home-component>` : ''}
+        ${location.hash === ROUTES.POEM ? html`<poem-bot></poem-bot>` : ''}
+        ${location.hash === ROUTES.NOTION ? html`<notion-bot></notion-bot>` : ''}
+      </main>
     `;
   }
 }

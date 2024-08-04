@@ -9,6 +9,7 @@ export const styles = css`
     width: 100%;
     box-sizing: border-box;
     background: #f9f9f9;
+    margin: 1rem;
   }
 
   button {
@@ -23,6 +24,7 @@ export const styles = css`
       background-color 0.3s ease,
       transform 0.2s ease;
     align-self: center;
+    margin-top: 1rem;
   }
 
   button:hover {
