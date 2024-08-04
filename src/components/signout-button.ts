@@ -11,10 +11,7 @@ export class LogOutComponent extends LitElement {
 
   render() {
     return html`
-      <login-button
-        .name=${this.name}
-        @click="${() => AuthService.logout(location.origin + location.hash)}"
-      >
+      <login-button .name=${this.name} @click="${AuthService.logout}">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
