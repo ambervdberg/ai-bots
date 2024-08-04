@@ -10,7 +10,7 @@ export class SigninGoogleButton extends LitElement {
 
   private googleLogin() {
     const redirect = location.origin + location.pathname;
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleOAuthConfig.clientId}&redirect_uri=${redirect}&response_type=token&scope=${googleOAuthConfig.scopes}`;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleOAuthConfig.clientId}&redirect_uri=${redirect}&response_type=token&scope=${encodeURI(googleOAuthConfig.scopes)}`;
     window.location.href = url;
   }
 
