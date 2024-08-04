@@ -52,17 +52,32 @@ export class AuthService {
     localStorage.setItem(AUTH_TOKEN, accessToken);
 
     AuthService.isAuthenticated();
+
+    AuthService.handleGoogleRedirect();
+  }
+
+  /**
+   * Handle the Google redirect.
+   * We cannot use the hash in the URL, so we replace the hash with the search param in the redirectURI to google.
+   * Here we revert that change and redirect to the original URL.
+   */
+  private static handleGoogleRedirect(): void {
+    const search = window.location.search;
+
+    if (search) {
+      window.location.href = location.origin + location.pathname + '#' + search.replace('?', '');
+    }
   }
 
   /**
    * Log out the user.
-   * @param url - The URL to redirect the user to after logging out.
    */
-  static logout(url?: string): void {
+  static logout(): void {
     localStorage.removeItem(AUTH_TOKEN);
     localStorage.removeItem(CODE);
 
-    if (url) window.location.href = url;
+    // Make sure it triggers the event listener in the Auth mixin.
+    window.dispatchEvent(new Event('storage'));
   }
 
   /**
