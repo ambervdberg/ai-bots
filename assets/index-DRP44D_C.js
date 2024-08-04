@@ -467,6 +467,12 @@
         </ul>
       </section>
     `}};it.styles=Ue;it=Ie([b("home-component")],it);const ke=P`
+  :host {
+    display: block;
+    margin: auto;
+    max-width: 1400px;
+  }
+
   header {
     background: #333;
     color: #fff;
