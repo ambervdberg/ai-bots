@@ -1,6 +1,12 @@
 import { css } from 'lit';
 
 export const styles = css`
+  :host {
+    display: block;
+    margin: auto;
+    max-width: 1400px;
+  }
+
   header {
     background: #333;
     color: #fff;
