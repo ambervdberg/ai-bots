@@ -9,7 +9,7 @@ export const styles = css`
     width: 100%;
     box-sizing: border-box;
     background: #f9f9f9;
-    margin: 1rem;
+    margin: 1rem 0;
   }
 
   button {
