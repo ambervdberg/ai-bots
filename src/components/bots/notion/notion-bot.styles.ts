@@ -88,4 +88,16 @@ export const styles = css`
     opacity: 0.35;
     cursor: not-allowed;
   }
+
+  .forbidden-message {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: #c0392b;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #c0392b;
+    border-radius: 2px;
+  }
 `;

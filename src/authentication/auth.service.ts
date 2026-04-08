@@ -8,6 +8,15 @@ const ACCESS_TOKEN = 'access_token';
  * Service to handle authentication.
  */
 export class AuthService {
+  private static forbidden = false;
+
+  /**
+   * Whether the last authorization attempt was rejected with a 403 Forbidden response.
+   */
+  static isForbidden(): boolean {
+    return this.forbidden;
+  }
+
   /**
    * Check if the user is authenticated.
    * @returns {Promise<boolean>} True if the user is authenticated, false otherwise.
@@ -17,23 +26,38 @@ export class AuthService {
 
     if (!authenticated) {
       localStorage.removeItem(CODE);
+      this.forbidden = false;
       return false;
     }
 
     const authorized = localStorage.getItem(CODE);
-    if (authorized) return true;
+    if (authorized) {
+      this.forbidden = false;
+      return true;
+    }
 
     // The user is authenticated but not checked for authorization yet.
     try {
       const result = await fetch(`${apiUrl}/auth-google?access_token=${authenticated}`);
 
-      if (result.status !== 200) return false; // The user is not authorized.
+      if (result.status === 403) {
+        this.forbidden = true;
+        localStorage.removeItem(AUTH_TOKEN);
+        return false; // The user is not authorized to use this feature.
+      }
+
+      if (result.status !== 200) {
+        this.forbidden = false;
+        return false;
+      }
 
       const code = await result.text();
       localStorage.setItem(CODE, code);
+      this.forbidden = false;
       return true; // The user is authorized.
     } catch (error) {
       console.error('Authentication error:', error);
+      this.forbidden = false;
       return false;
     }
   }
@@ -43,7 +67,7 @@ export class AuthService {
    * If the response contains an access token, store it in local storage.
    */
   static handleAuthResponse(): void {
-    const params = new URLSearchParams(window.location.hash.substring(1));
+    const params = new URLSearchParams(globalThis.location.hash.substring(1));
 
     const accessToken = params.get(ACCESS_TOKEN);
 
@@ -62,10 +86,11 @@ export class AuthService {
    * Here we revert that change and redirect to the original URL.
    */
   private static handleGoogleRedirect(): void {
-    const search = window.location.search;
+    const search = globalThis.location.search;
 
     if (search) {
-      window.location.href = location.origin + location.pathname + '#' + search.replace('?', '');
+      globalThis.location.href =
+        location.origin + location.pathname + '#' + search.replace('?', '');
     }
   }
 
@@ -75,9 +100,10 @@ export class AuthService {
   static logout(): void {
     localStorage.removeItem(AUTH_TOKEN);
     localStorage.removeItem(CODE);
+    this.forbidden = false;
 
     // Make sure it triggers the event listener in the Auth mixin.
-    window.dispatchEvent(new Event('storage'));
+    globalThis.dispatchEvent(new Event('storage'));
   }
 
   /**
