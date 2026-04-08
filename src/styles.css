@@ -1,20 +1,36 @@
+:root {
+  --color-bg: #0f0d0a;
+  --color-surface: #1a1815;
+  --color-surface-2: #22201a;
+  --color-gold: #c8a96e;
+  --color-gold-light: #e8d5a3;
+  --color-gold-dim: #8a6e45;
+  --color-text: #e8d5a3;
+  --color-text-muted: #b0a090;
+  --color-border: #2a2720;
+  --color-border-accent: #4a3f28;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-display);
+  line-height: 1.7;
   padding: 1.5rem;
-  background-color: #f4f4f4;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
 }
 
 @media (max-width: 600px) {
   body {
     padding: 0;
   }
-}
-
-footer {
-  text-align: center;
-  padding: 1.5rem 0;
-  background: #333;
-  color: #fff;
 }

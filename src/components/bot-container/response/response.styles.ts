@@ -2,17 +2,8 @@ import { css } from 'lit';
 
 export const styles = css`
   #botResponse {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    color: #333;
-    white-space: pre-wrap;
-    text-align: center;
-  }
-
-  .invisible {
-    opacity: 0;
+    margin-top: 2.5rem;
+    padding: 1.25rem 2rem 1.25rem 2.5rem;
+    border-left: 2px solid var(--color-gold-dim);
   }
 `;

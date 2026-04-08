@@ -33,12 +33,20 @@ export class AIBotApp extends LitElement {
   render() {
     return html`
       <header>
-        <h1>OpenAI API Bots</h1>
+        <h1>AI Bots</h1>
         <nav>
           <ul>
-            <li><a href="./">About</a></li>
-            <li><a href="${ROUTES.POEM}">Poem Bot</a></li>
-            <li><a href="${ROUTES.NOTION}">Notion Bot</a></li>
+            <li><a href="./" class=${location.hash === ROUTES.HOME ? 'active' : ''}>About</a></li>
+            <li>
+              <a href="${ROUTES.POEM}" class=${location.hash === ROUTES.POEM ? 'active' : ''}
+                >Poem Bot</a
+              >
+            </li>
+            <li>
+              <a href="${ROUTES.NOTION}" class=${location.hash === ROUTES.NOTION ? 'active' : ''}
+                >Notion Bot</a
+              >
+            </li>
           </ul>
         </nav>
       </header>

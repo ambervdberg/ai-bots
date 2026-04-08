@@ -70,6 +70,11 @@ export class PoemBot extends Bot {
         <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
       </bot-container>
+      ${this.response
+        ? html`<p class="style-note">
+            * Poem layout and style are chosen by the AI — each one looks a little different.
+          </p>`
+        : ''}
     `;
   }
 }
