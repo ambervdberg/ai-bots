@@ -1,12 +1,14 @@
 import { css } from 'lit';
 
 export const styles = css`
-  /* Generated subject caption */
+  /* Generated subject */
   #botQuestion {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    color: var(--color-gold-light);
     margin-top: 1.75rem;
     text-align: center;
   }
@@ -58,5 +60,16 @@ export const styles = css`
 
   button:disabled::before {
     display: none;
+  }
+
+  .style-note {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-top: 1.25rem;
+    font-style: normal;
+    opacity: 0.75;
   }
 `;
