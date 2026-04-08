@@ -31,6 +31,12 @@ export const Auth = <T extends Constructor<LitElement>>(superClass: T) => {
       globalThis.addEventListener('storage', this.checkAuth);
     }
 
+    disconnectedCallback(): void {
+      // Remove the storage listener so it doesn't accumulate across route changes.
+      super.disconnectedCallback();
+      globalThis.removeEventListener('storage', this.checkAuth);
+    }
+
     checkAuth = () => {
       AuthService.isAuthenticated().then(isAuthenticated => {
         this.isAuthenticated = isAuthenticated;
