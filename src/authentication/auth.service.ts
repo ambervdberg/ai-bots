@@ -68,7 +68,7 @@ export class AuthService {
    * Handle the authentication response.
    * If the response contains an access token, store it in local storage.
    */
-  static handleAuthResponse(): void {
+  static async handleAuthResponse(): Promise<void> {
     const params = new URLSearchParams(globalThis.location.hash.substring(1));
 
     const accessToken = params.get(ACCESS_TOKEN);
@@ -77,7 +77,7 @@ export class AuthService {
 
     localStorage.setItem(AUTH_TOKEN, accessToken);
 
-    AuthService.isAuthenticated();
+    await AuthService.isAuthenticated();
 
     AuthService.handleGoogleRedirect();
   }
