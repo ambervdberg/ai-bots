@@ -6,37 +6,32 @@ export const styles = css`
     text-align: center;
   }
 
+  /* Google Sign-In button — dark theme variant */
   .button {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     -webkit-appearance: none;
-    background-color: WHITE;
+    background-color: var(--color-surface-2, #22201a);
     background-image: none;
-    border: 1px solid #747775;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
-    -webkit-box-sizing: border-box;
+    border: 1px solid var(--color-border-accent, #4a3f28);
+    border-radius: 4px;
     box-sizing: border-box;
-    color: #1f1f1f;
+    color: var(--color-text, #e8d5a3);
     cursor: pointer;
-    font-family: 'Roboto', arial, sans-serif;
-    font-size: 14px;
+    font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+    font-size: 13px;
+    font-weight: 400;
     height: 40px;
-    letter-spacing: 0.25px;
+    letter-spacing: 0.05em;
     outline: none;
     overflow: hidden;
-    padding: 0 12px;
+    padding: 0 16px;
     position: relative;
     text-align: center;
-    -webkit-transition:
-      background-color 0.218s,
-      border-color 0.218s,
-      box-shadow 0.218s;
     transition:
-      background-color 0.218s,
-      border-color 0.218s,
-      box-shadow 0.218s;
+      background-color 0.218s ease,
+      border-color 0.218s ease;
     vertical-align: middle;
     white-space: nowrap;
     width: auto;
@@ -45,19 +40,16 @@ export const styles = css`
   }
 
   .button .button-icon {
-    height: 20px;
-    margin-right: 12px;
-    min-width: 20px;
-    width: 20px;
+    height: 18px;
+    margin-right: 10px;
+    min-width: 18px;
+    width: 18px;
   }
 
   .button .button-content-wrapper {
-    -webkit-align-items: center;
     align-items: center;
     display: flex;
-    -webkit-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
     height: 100%;
     justify-content: space-between;
@@ -66,17 +58,15 @@ export const styles = css`
   }
 
   .button .button-contents {
-    -webkit-flex-grow: 1;
     flex-grow: 1;
-    font-family: 'Roboto', arial, sans-serif;
-    font-weight: 500;
+    font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+    font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
   }
 
   .button .button-state {
-    -webkit-transition: opacity 0.218s;
     transition: opacity 0.218s;
     bottom: 0;
     left: 0;
@@ -88,35 +78,17 @@ export const styles = css`
 
   .button:disabled {
     cursor: default;
-    background-color: #ffffff61;
-    border-color: #1f1f1f1f;
+    opacity: 0.4;
   }
 
-  .button:disabled .button-contents {
-    opacity: 38%;
-  }
-
-  .button:disabled .button-icon {
-    opacity: 38%;
+  .button:not(:disabled):hover {
+    background-color: var(--color-surface, #1a1815);
+    border-color: var(--color-gold-dim, #8a6e45);
   }
 
   .button:not(:disabled):active .button-state,
   .button:not(:disabled):focus .button-state {
-    background-color: #303030;
-    opacity: 12%;
-  }
-
-  .button:not(:disabled):hover {
-    -webkit-box-shadow:
-      0 1px 2px 0 rgba(60, 64, 67, 0.3),
-      0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    box-shadow:
-      0 1px 2px 0 rgba(60, 64, 67, 0.3),
-      0 1px 3px 1px rgba(60, 64, 67, 0.15);
-  }
-
-  .button:not(:disabled):hover .button-state {
-    background-color: #303030;
+    background-color: var(--color-gold, #c8a96e);
     opacity: 8%;
   }
 `;
