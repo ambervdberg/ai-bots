@@ -2,7 +2,7 @@
 
 Personal project to explore the OpenAI API.
 
-Live demo: https://ambervdberg.github.io/ai-bots/
+Live demo: [ai-bots.codequest.nl](https://ai-bots.codequest.nl/)
 
 ## Bots
 
