@@ -96,8 +96,11 @@ export abstract class Bot extends Auth(LitElement) {
    */
   protected async processStream(result: Response): Promise<void> {
     try {
-      const readableStream = result.body as ReadableStream<Uint8Array>;
-      const reader = readableStream.getReader();
+      if (!result.body) {
+        this.displayResponseString('Received an empty response. Please try again.');
+        return;
+      }
+      const reader = result.body.getReader();
       const decoder = new TextDecoder();
 
       const readStream = async () => {
