@@ -61,6 +61,7 @@ export class PoemBot extends Bot {
   async createPrompt(): Promise<string> {
     this.setTypingMessage('Generating subject');
     const response = await fetch(`${this.apiUrl}/subject`);
+    if (!response.ok) throw new Error(`Subject fetch failed: ${response.status}`);
     return response.text();
   }
 
