@@ -35,6 +35,7 @@ jobs:
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_ID }}
+          VITE_BASE_PATH: /ai-bots/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
