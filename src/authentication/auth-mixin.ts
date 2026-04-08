@@ -8,11 +8,13 @@ type Constructor<T> = new (...args: any[]) => T;
 
 export declare class AuthInterface {
   isAuthenticated: boolean;
+  isForbidden: boolean;
 }
 
 export const Auth = <T extends Constructor<LitElement>>(superClass: T) => {
   class AuthElement extends superClass {
     @property({ type: Boolean }) isAuthenticated = false;
+    @property({ type: Boolean }) isForbidden = false;
 
     constructor(...args: any[]) {
       super(...args);
@@ -26,12 +28,13 @@ export const Auth = <T extends Constructor<LitElement>>(superClass: T) => {
         return true;
       });
 
-      window.addEventListener('storage', this.checkAuth);
+      globalThis.addEventListener('storage', this.checkAuth);
     }
 
     checkAuth = () => {
       AuthService.isAuthenticated().then(isAuthenticated => {
         this.isAuthenticated = isAuthenticated;
+        this.isForbidden = AuthService.isForbidden();
         this.requestUpdate();
       });
     };

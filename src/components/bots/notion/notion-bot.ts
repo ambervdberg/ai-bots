@@ -99,6 +99,13 @@ export class NotionBot extends Bot {
         </div>
 
         ${when(
+          this.isForbidden,
+          () =>
+            html`<p class="forbidden-message">
+              This account is not authorized. Try signing in with a different account.
+            </p>`
+        )}
+        ${when(
           this.isAuthenticated,
           () => html`
             ${this.renderWorkspace()} ${this.renderQuestion()} ${this.renderQuestionButton()}
