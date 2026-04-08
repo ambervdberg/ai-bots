@@ -38,7 +38,9 @@ export class AuthService {
 
     // The user is authenticated but not checked for authorization yet.
     try {
-      const result = await fetch(`${apiUrl}/auth-google?access_token=${authenticated}`);
+      const result = await fetch(`${apiUrl}/auth-google`, {
+        headers: { Authorization: `Bearer ${authenticated}` }
+      });
 
       if (result.status === 403) {
         this.forbidden = true;
