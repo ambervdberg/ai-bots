@@ -66,7 +66,13 @@ export class PoemBot extends Bot {
 
   render() {
     return html`
-      <bot-container .name=${this.name} .response=${this.response}>
+      <bot-container
+        .name=${this.name}
+        .response=${this.response}
+        .isTyping=${this.isTyping}
+        .typingMessage=${this.typingMessage}
+        .typingDotCount=${this.typingDotCount}
+      >
         <button @click="${this.start}">Generate Poem</button>
         <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
       </bot-container>

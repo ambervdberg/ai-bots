@@ -1,5 +1,5 @@
 import { LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { ChatCompletion, ChatCompletionUserMessageParam } from 'openai/resources/chat/completions';
 
 import { Auth } from '../../authentication/auth-mixin';
@@ -12,6 +12,10 @@ export abstract class Bot extends Auth(LitElement) {
    * The response from the bot.
    */
   @property({ type: String }) response: string = '';
+
+  @state() protected isTyping = false;
+  @state() protected typingMessage = '';
+  @state() protected typingDotCount = 1;
 
   private typingInterval?: number;
 
@@ -66,17 +70,13 @@ export abstract class Bot extends Auth(LitElement) {
    */
   protected setTypingMessage(message: string) {
     this.stopTypingMessage();
-    let dotCount = 1;
-    const maxDots = 4;
+    this.typingMessage = message;
+    this.typingDotCount = 1;
+    this.isTyping = true;
 
-    const updateTypingMessage = () => {
-      const dots = '.'.repeat(dotCount);
-      const invisibleDots = `<span class="invisible">${dots}</span>`; // to keep the message centered
-      this.displayResponseString(`${invisibleDots}<i>${message}${dots}</i>`);
-      dotCount = (dotCount % maxDots) + 1;
-    };
-
-    this.typingInterval = window.setInterval(updateTypingMessage, 500);
+    this.typingInterval = globalThis.setInterval(() => {
+      this.typingDotCount = (this.typingDotCount % 4) + 1;
+    }, 500);
   }
 
   /**
@@ -87,6 +87,7 @@ export abstract class Bot extends Auth(LitElement) {
       clearInterval(this.typingInterval);
       this.typingInterval = undefined;
     }
+    this.isTyping = false;
   }
 
   /**

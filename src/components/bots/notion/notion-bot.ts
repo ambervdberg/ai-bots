@@ -92,7 +92,13 @@ export class NotionBot extends Bot {
 
   render() {
     return html`
-      <bot-container .name=${this.name} .response=${this.response}>
+      <bot-container
+        .name=${this.name}
+        .response=${this.response}
+        .isTyping=${this.isTyping}
+        .typingMessage=${this.typingMessage}
+        .typingDotCount=${this.typingDotCount}
+      >
         <div class="signin">
           <signin-google ?hidden=${this.isAuthenticated}></signin-google>
           <signout-button ?hidden=${!this.isAuthenticated}></signout-button>

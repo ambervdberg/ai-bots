@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import { html, LitElement } from 'lit';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { when } from 'lit-html/directives/when.js';
@@ -9,7 +10,7 @@ import { styles } from './response.styles';
  */
 @customElement('response-container')
 export class ResponseContainer extends LitElement {
-  static styles = styles;
+  static readonly styles = styles;
 
   @property({ type: String })
   response = '';
@@ -18,7 +19,7 @@ export class ResponseContainer extends LitElement {
     return html`
       ${when(
         this.response.length > 0,
-        () => html`<div id="botResponse">${unsafeHTML(this.response)}</div>`
+        () => html`<div id="botResponse">${unsafeHTML(DOMPurify.sanitize(this.response))}</div>`
       )}
     `;
   }
