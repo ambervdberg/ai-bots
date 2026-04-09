@@ -15,6 +15,7 @@ export abstract class Bot extends Auth(LitElement) {
 
   @state() protected isTyping = false;
   @state() protected typingMessage = '';
+  @state() protected typingVariant: 'thinking' | 'writing' = 'writing';
   @state() protected typingDotCount = 1;
 
   private typingInterval?: number;
@@ -67,10 +68,12 @@ export abstract class Bot extends Auth(LitElement) {
   /**
    * Sets the typing message for the bot.
    * @param message The typing message to display.
+   * @param variant The loader variant: `'thinking'` (sparkles) or `'writing'` (quill).
    */
-  protected setTypingMessage(message: string) {
+  protected setTypingMessage(message: string, variant: 'thinking' | 'writing' = 'writing') {
     this.stopTypingMessage();
     this.typingMessage = message;
+    this.typingVariant = variant;
     this.typingDotCount = 1;
     this.isTyping = true;
 
