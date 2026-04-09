@@ -32,7 +32,7 @@ export class PoemBot extends Bot {
     try {
       this.userQuestion.content = await this.createPrompt();
 
-      this.setTypingMessage('Poet is typing');
+      this.setTypingMessage('Poet is writing', 'writing');
 
       const result = await fetch(`${this.apiUrl}/poem`, {
         method: 'POST',
@@ -59,7 +59,7 @@ export class PoemBot extends Bot {
    * @returns the generated prompt.
    */
   async createPrompt(): Promise<string> {
-    this.setTypingMessage('Generating subject');
+    this.setTypingMessage('Gathering inspiration', 'thinking');
     const response = await fetch(`${this.apiUrl}/subject`);
     if (!response.ok) throw new Error(`Subject fetch failed: ${response.status}`);
     return response.text();
@@ -72,6 +72,7 @@ export class PoemBot extends Bot {
         .response=${this.response}
         .isTyping=${this.isTyping}
         .typingMessage=${this.typingMessage}
+        .typingVariant=${this.typingVariant}
         .typingDotCount=${this.typingDotCount}
       >
         <button @click="${this.start}">Generate Poem</button>
