@@ -1,18 +1,6 @@
 import { css } from 'lit';
 
 export const styles = css`
-  /* Generated subject */
-  #botQuestion {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 300;
-    letter-spacing: 0.03em;
-    color: var(--color-gold-light);
-    margin-top: 1.75rem;
-    text-align: center;
-  }
-
   /* Outlined button with gold fill-from-left on hover */
   button {
     font-family: var(--font-mono);

@@ -26,18 +26,15 @@ export class PoemBot extends Bot {
   }
 
   /**
-   * Starts the Poet Bot and generates a poem based on AI generated user input.
+   * Starts the Poet Bot and generates a poem.
    */
   async start(): Promise<void> {
     try {
-      this.userQuestion.content = await this.createPrompt();
-
       this.setTypingMessage('Poet is writing', 'writing');
 
       const result = await fetch(`${this.apiUrl}/poem`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: this.userQuestion.content })
+        headers: { 'Content-Type': 'application/json' }
       });
 
       if (result.status !== 200) {
@@ -54,17 +51,6 @@ export class PoemBot extends Bot {
     }
   }
 
-  /**
-   * Retrieves an AI generated user prompt.
-   * @returns the generated prompt.
-   */
-  async createPrompt(): Promise<string> {
-    this.setTypingMessage('Gathering inspiration', 'thinking');
-    const response = await fetch(`${this.apiUrl}/subject`);
-    if (!response.ok) throw new Error(`Subject fetch failed: ${response.status}`);
-    return response.text();
-  }
-
   render() {
     return html`
       <bot-container
@@ -76,7 +62,6 @@ export class PoemBot extends Bot {
         .typingDotCount=${this.typingDotCount}
       >
         <button @click="${this.start}">Generate Poem</button>
-        <p id="botQuestion">${this.userQuestion.content || 'Subject will be generated...'}</p>
       </bot-container>
       ${this.response
         ? html`<p class="style-note">
