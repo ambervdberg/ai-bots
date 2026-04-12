@@ -67,6 +67,7 @@ export const styles = css`
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    padding-top: 1.5rem;
   }
 
   /* The SVG quill rocks as if writing */
