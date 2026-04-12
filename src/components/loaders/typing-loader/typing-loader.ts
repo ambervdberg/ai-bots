@@ -18,6 +18,7 @@ export class TypingLoader extends LitElement {
   /** Visual variant: `'thinking'` (sparkles) or `'writing'` (quill). */
   @property({ type: String }) variant: 'thinking' | 'writing' = 'writing';
 
+  /**Renders the loader variant and its status message */
   render() {
     return html`
       ${this.variant === 'thinking' ? this.renderThinking() : this.renderWriting()}
@@ -25,6 +26,7 @@ export class TypingLoader extends LitElement {
     `;
   }
 
+  /**Renders the sparkle animation used for the thinking state */
   private renderThinking() {
     return html`
       <div class="thinking-sparks" aria-hidden="true">
@@ -35,6 +37,7 @@ export class TypingLoader extends LitElement {
     `;
   }
 
+  /**Renders the quill animation used for the writing state */
   private renderWriting() {
     return html`
       <div class="writing-wrap" aria-hidden="true">

@@ -8,34 +8,34 @@ import { Auth } from '../../authentication/auth-mixin';
  * Abstract class representing an AI bot.
  */
 export abstract class Bot extends Auth(LitElement) {
-  /**
-   * The response from the bot.
-   */
+  /** The response from the bot.*/
   @property({ type: String }) response: string = '';
 
+  /** Indicates whether the bot is currently generating output. */
   @state() protected isTyping = false;
+
+  /** Message displayed while the bot is generating output. */
   @state() protected typingMessage = '';
+
+  /** Active loader variant for the bot typing state. */
   @state() protected typingVariant: 'thinking' | 'writing' = 'writing';
+
+  /** Animated dot count used by the typing indicator. */
   @state() protected typingDotCount = 1;
 
-  private typingInterval?: number;
+  /** Interval handle for the typing indicator animation. */
+  private botTypingTimer?: NodeJS.Timeout;
 
-  /**
-   * The API URL for the bot.
-   */
+  /** The API URL for the bot. */
   protected apiUrl = (import.meta as any).env.VITE_API_URL;
 
-  /**
-   * The user's question.
-   */
+  /** The user's question. */
   protected userQuestion: ChatCompletionUserMessageParam = {
     role: 'user',
     content: ''
   };
 
-  /**
-   * Starts the bot.
-   */
+  /** Starts the bot. */
   abstract start(): Promise<void>;
 
   /**
@@ -77,18 +77,16 @@ export abstract class Bot extends Auth(LitElement) {
     this.typingDotCount = 1;
     this.isTyping = true;
 
-    this.typingInterval = globalThis.setInterval(() => {
+    this.botTypingTimer = globalThis.setInterval(() => {
       this.typingDotCount = (this.typingDotCount % 4) + 1;
     }, 500);
   }
 
-  /**
-   * Stops the typing message for the bot.
-   */
+  /** Stops the typing message for the bot. */
   protected stopTypingMessage(): void {
-    if (this.typingInterval) {
-      clearInterval(this.typingInterval);
-      this.typingInterval = undefined;
+    if (this.botTypingTimer) {
+      clearInterval(this.botTypingTimer);
+      this.botTypingTimer = undefined;
     }
     this.isTyping = false;
   }
@@ -103,6 +101,8 @@ export abstract class Bot extends Auth(LitElement) {
         this.displayResponseString('Received an empty response. Please try again.');
         return;
       }
+
+      // Stream the response incrementally so the UI updates as tokens arrive.
       const reader = result.body.getReader();
       const decoder = new TextDecoder();
 

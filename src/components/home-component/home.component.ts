@@ -2,10 +2,13 @@ import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { styles } from './home.component.styles';
 
+/**Displays the project overview and links to the available bot integrations */
 @customElement('home-component')
 export class HomeComponent extends LitElement {
+  /** Component styles. */
   static styles = styles;
 
+  /**Renders the landing page content for the application */
   render() {
     return html`
       <h1>About</h1>

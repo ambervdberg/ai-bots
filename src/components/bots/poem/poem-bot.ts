@@ -5,19 +5,12 @@ import '../../bot-container/bot-container';
 import { Bot } from '../bot';
 import { styles } from './poem-bot.styles';
 
-/**
- * Represents a Poet Bot that generates IT related poems.
- */
+/** Represents a Poet Bot that generates IT related poems.*/
 @customElement('poem-bot')
 export class PoemBot extends Bot {
-  /**
-   * The name of the Bot.
-   */
+  /** The name of the Bot. */
   @property({ type: String }) name = 'Poem bot';
 
-  /**
-   * The CSS styles for the Poet Bot component.
-   */
   static styles = styles;
 
   constructor() {
@@ -25,9 +18,7 @@ export class PoemBot extends Bot {
     this.response = '';
   }
 
-  /**
-   * Starts the Poet Bot and generates a poem.
-   */
+  /** Starts the Poet Bot and generates a poem. */
   async start(): Promise<void> {
     try {
       this.setTypingMessage('Poet is writing', 'writing');
@@ -37,6 +28,7 @@ export class PoemBot extends Bot {
         headers: { 'Content-Type': 'application/json' }
       });
 
+      // Handle success response
       if (result.status !== 200) {
         this.stopTypingMessage();
         this.displayResponseString('An error occurred. Please try again.');
@@ -44,6 +36,8 @@ export class PoemBot extends Bot {
       }
 
       await this.processStream(result);
+
+      // Handle error
     } catch (error) {
       console.error('Error in start method:', error);
       this.stopTypingMessage();
@@ -51,6 +45,7 @@ export class PoemBot extends Bot {
     }
   }
 
+  /**Renders the poem bot UI and the generated poem response */
   render() {
     return html`
       <bot-container
